@@ -13,7 +13,7 @@ public class Slipstream {
         Scanner sc = new Scanner(System.in);
 
         // Create a list of tasks
-        ArrayList<Task> taskList = new ArrayList<>();
+        ArrayList<Task> taskList = new ArrayList<>(100);
 
         while (true) {
             // Read the user's input
@@ -34,9 +34,7 @@ public class Slipstream {
                     System.out.println("____________________________________________________________");
                     System.out.println(" Here are the tasks in your list:");
                     for (int i = 0; i < taskList.size(); i++) {
-                        Task task = taskList.get(i);
-                        System.out.println("    " + (i + 1) + ".[" + task.getStatusIcon() + "] "
-                                                  + task.description);
+                        System.out.println("   " + (i + 1) + "." + taskList.get(i).toString());
                     }
                     System.out.println("____________________________________________________________");
                     break;
@@ -47,8 +45,7 @@ public class Slipstream {
                     taskList.get(taskIndex1).markAsDone();
                     System.out.println("____________________________________________________________");
                     System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   [" + taskList.get(taskIndex1).getStatusIcon() + "] "
-                                              + taskList.get(taskIndex1).description);
+                    System.out.println("   " + taskList.get(taskIndex1).toString());
                     System.out.println("____________________________________________________________");
                     break;
                 case "unmark":
@@ -57,8 +54,42 @@ public class Slipstream {
                     taskList.get(taskIndex2).markAsNotDone();
                     System.out.println("____________________________________________________________");
                     System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   [" + taskList.get(taskIndex2).getStatusIcon() + "] "
-                                              + taskList.get(taskIndex2).description);
+                    System.out.println("   " + taskList.get(taskIndex2).toString());
+                    System.out.println("____________________________________________________________");
+                    break;
+
+                case "todo":
+                    // Add a new ToDo task
+                    taskList.add(new ToDo(commandAndTask[1]));
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + taskList.get(taskList.size() - 1).toString());
+                    System.out.println(" Now you have " + taskList.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                    break;
+
+                case "deadline":
+                    // Split the input into description and by
+                    String[] deadlineCommand = commandAndTask[1].split(" /by ");
+                    taskList.add(new Deadline(deadlineCommand[0], deadlineCommand[1]));
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + taskList.get(taskList.size() - 1).toString());
+                    System.out.println(" Now you have " + taskList.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                    break;
+
+                case "event":
+                    // Split the input into description and at
+                    String[] eventDetails = commandAndTask[1].split(" /from | /to ");
+                    String eventDescription = eventDetails[0];
+                    String eventFrom = eventDetails[1];
+                    String eventTo = eventDetails[2];
+                    taskList.add(new Event(eventDescription, eventFrom, eventTo));
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + taskList.get(taskList.size() - 1).toString());
+                    System.out.println(" Now you have " + taskList.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                     break;
 
