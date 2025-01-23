@@ -4,4 +4,7 @@ event project meeting /from 2pm /to 4pm
 list
 mark 2
 list
+delete
+delete 2
+list
 bye
