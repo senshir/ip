@@ -1,10 +1,14 @@
+package slipstream.ui;
+
+import slipstream.task.Task;
+
 import java.util.ArrayList;
 
 public class Ui {
 	
 	public void showWelcomeMessage() {
 		System.out.println("____________________________________________________________");
-		System.out.println(" Hello! I'm Slipstream");
+		System.out.println(" Hello! I'm slipstream.Slipstream");
 		System.out.println(" What can I do for you?");
 		System.out.println("____________________________________________________________");
 	}
