@@ -1,3 +1,10 @@
+package slipstream.parser;
+
+import slipstream.SlipstreamException;
+import slipstream.storage.Storage;
+import slipstream.task.*;
+import slipstream.ui.Ui;
+
 public class Parser {
 	public boolean processCommand(String input, TaskList tasks, Ui ui, Storage storage) {
 		String[] commandAndTask = input.split(" ", 2);

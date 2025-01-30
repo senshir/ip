@@ -1,3 +1,9 @@
+package slipstream.task;
+
+import slipstream.SlipstreamException;
+import slipstream.storage.Storage;
+import slipstream.ui.Ui;
+import slipstream.task.*;
 import java.util.ArrayList;
 
 public class TaskList {

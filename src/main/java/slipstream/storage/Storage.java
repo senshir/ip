@@ -1,3 +1,7 @@
+package slipstream.storage;
+
+import slipstream.SlipstreamException;
+import slipstream.task.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

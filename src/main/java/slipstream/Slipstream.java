@@ -1,5 +1,11 @@
+package slipstream;
+
 import java.util.Scanner;
 import java.io.IOException;
+import slipstream.task.*;
+import slipstream.storage.Storage;
+import slipstream.ui.Ui;
+import slipstream.parser.Parser;
 
 public class Slipstream {
     
