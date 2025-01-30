@@ -4,10 +4,10 @@ import java.util.List;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class FileSaving {
+public class Storage {
     private final String filePath;
 
-    public FileSaving(String filePath) {
+    public Storage(String filePath) {
         this.filePath = filePath;
         checkFileExists();
     }
