@@ -23,7 +23,7 @@ public class Slipstream {
         ArrayList<Task> taskList = new ArrayList<>(100);
         try {
             taskList = fileSaver.loadTasks();
-        } catch (IOException e) {
+        } catch (IOException | SlipstreamException e) {
             System.out.println("No saved tasks found, starting fresh.");
         }
         

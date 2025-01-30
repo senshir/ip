@@ -41,7 +41,7 @@ public class FileSaving {
         }
     }
 
-    public static Task readTask(String line) {
+    public static Task readTask(String line) throws SlipstreamException {
         String[] taskDetails = line.split(" \\| ", -1);
         if (taskDetails.length < 3) {
             return null;
@@ -65,7 +65,7 @@ public class FileSaving {
         }
     }
 
-    public ArrayList<Task> loadTasks() throws IOException {
+    public ArrayList<Task> loadTasks() throws IOException, SlipstreamException {
         ArrayList<Task> taskList = new ArrayList<>();
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
@@ -75,7 +75,7 @@ public class FileSaving {
                     taskList.add(task);
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | SlipstreamException e) {
             System.out.println("Issue with loading tasks: " + e.getMessage());
             throw e;
         }
