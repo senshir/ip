@@ -1,12 +1,20 @@
 package slipstream.storage;
 
-import slipstream.SlipstreamException;
-import slipstream.task.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import slipstream.SlipstreamException;
+import slipstream.task.Deadline;
+import slipstream.task.Event;
+import slipstream.task.Task;
+import slipstream.task.ToDo;
+
 
 public class Storage {
     private final String filePath;
@@ -53,7 +61,7 @@ public class Storage {
         String taskType = taskDetails[0];
         boolean isDone = taskDetails[1].equals("1");
         String description = taskDetails[2];
-        
+
         switch (taskType) {
         case "T":
             return new ToDo(description, isDone);
