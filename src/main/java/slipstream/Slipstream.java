@@ -8,6 +8,12 @@ import slipstream.storage.Storage;
 import slipstream.task.TaskList;
 import slipstream.ui.Ui;
 
+/*
+  * Slipstream is a chatbot that helps users to keep track of their tasks.
+  * Users can add, delete, mark tasks as done, and find tasks based on keywords.
+  * The tasks are saved in a text file and loaded when the chatbot is started.
+  * The chatbot will save the tasks to the text file when the chatbot is closed.
+  */
 public class Slipstream {
 
     private final Ui ui;
