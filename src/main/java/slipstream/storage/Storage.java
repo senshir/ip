@@ -15,15 +15,28 @@ import slipstream.task.Event;
 import slipstream.task.Task;
 import slipstream.task.ToDo;
 
-
+/**
+ * The {@code Storage} class represents a storage object that saves and loads tasks to and from a file.
+ * It contains operations to save and load tasks.
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Constructs a {@code Storage} instance with the specified file path.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
         checkFileExists();
     }
 
+    /**
+     * Checks if the file exists and creates it if it doesn't.
+     * If the file doesn't exist, a directory is created as well.
+     * Catches and prints any IOException that occurs.
+     */
     private void checkFileExists() {
         File file = new File(filePath);
         File directory = file.getParentFile();
@@ -42,6 +55,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the list of tasks to the file.
+     *
+     * @param taskList The list of tasks to be saved.
+     */
     public void saveTasks(ArrayList<Task> taskList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : taskList) {
@@ -53,6 +71,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads a task from a line in the file.
+     *
+     * @param line The line in the file to read the task from.
+     * @return The task read from the line.
+     * @throws SlipstreamException If the task type is not recognized.
+     */
     public static Task readTask(String line) throws SlipstreamException {
         String[] taskDetails = line.split(" \\| ", -1);
         if (taskDetails.length < 3) {
@@ -77,6 +102,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the file.
+     *
+     * @return The list of tasks loaded from the file.
+     * @throws IOException If there is an issue reading the file.
+     * @throws SlipstreamException If there is an issue reading the tasks.
+     */
     public ArrayList<Task> loadTasks() throws IOException, SlipstreamException {
         ArrayList<Task> taskList = new ArrayList<>();
         try {

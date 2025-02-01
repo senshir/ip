@@ -5,7 +5,24 @@ import slipstream.storage.Storage;
 import slipstream.task.TaskList;
 import slipstream.ui.Ui;
 
+/**
+ * The {@code Parser} class is responsible for parsing user input and executing the corresponding commands.
+ * It processes commands such as adding, deleting, marking tasks as done, and listing tasks.
+ * The parser also handles exceptions and displays error messages to the user.
+ * Based on the command, the parser calls the appropriate methods in the {@code TaskList} and {@code Ui} classes.
+ */
 public class Parser {
+
+    /**
+     * Processes the user input and executes the corresponding command.
+     * The method calls the appropriate methods in the {@code TaskList} and {@code Ui} classes based on the command.
+     *
+     * @param input   The user input to be processed.
+     * @param tasks   The list of tasks to be updated based on the command.
+     * @param ui      The UI object used to display messages.
+     * @param storage The storage object used to save the updated list of tasks.
+     * @return A boolean value indicating whether the chatbot should continue running.
+     */
     public boolean processCommand(String input, TaskList tasks, Ui ui, Storage storage) {
         String[] commandAndTask = input.split(" ", 2);
         String command = commandAndTask[0];

@@ -21,9 +21,8 @@ public class DeadlineTest {
 
     @Test
     public void wrongFormatForDeadline() {
-        Exception exception = assertThrows(SlipstreamException.class, () -> {
-            new Deadline("Clean room", "05-02-2025");
-        });
+        Exception exception = assertThrows(SlipstreamException.class, ()
+            -> new Deadline("Clean room", "05-02-2025"));
 
         assertEquals("Please write your deadline in this format: yyyy-MM-dd, e.g., 2021-02-26",
             exception.getMessage());
