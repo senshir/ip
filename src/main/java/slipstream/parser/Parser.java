@@ -1,7 +1,10 @@
 package slipstream.parser;
 
+import java.util.ArrayList;
+
 import slipstream.SlipstreamException;
 import slipstream.storage.Storage;
+import slipstream.task.Task;
 import slipstream.task.TaskList;
 import slipstream.ui.Ui;
 
@@ -60,6 +63,13 @@ public class Parser {
                 break;
             case "clear":
                 tasks.clearTasks(storage, ui);
+                break;
+            case "find":
+                if (commandAndTask.length < 2) {
+                    throw new SlipstreamException("You need to specify a keyword to search!");
+                }
+                ArrayList<Task> matchingTasks = tasks.findTasks(commandAndTask[1]);
+                ui.showMatchingTasks(matchingTasks);
                 break;
             default:
                 throw new SlipstreamException("Sorry but I don't know what that means :/");
