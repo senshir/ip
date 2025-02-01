@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 public class SlipstreamTest {
 
-    private final String filePath = "./data/slipstream_test.txt";
     // outContent is used to test the output of the program
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     // originalOut is used to revert the output of the program to the original output stream
@@ -33,15 +32,18 @@ public class SlipstreamTest {
     public void restoreStreams() throws IOException {
         System.setOut(originalOut);
         // IMPORTANT: Delete the file after each test to reset task list
+        String filePath = "./data/slipstream_test.txt";
         Files.deleteIfExists(Paths.get(filePath));
     }
 
     @Test
     public void testValidCommand() throws IOException, SlipstreamException {
         // User inputs "list", then "todo read book", then "bye"
-        String input = "list\n"
-            + "todo read book\n"
-            + "bye\n";
+        String input = """
+            list
+            todo read book
+            bye
+            """;
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         // Run Slipstream to get greeting

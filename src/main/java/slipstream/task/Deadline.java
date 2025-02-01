@@ -6,11 +6,21 @@ import java.time.format.DateTimeParseException;
 
 import slipstream.SlipstreamException;
 
+/**
+ * The {@code Deadline} class represents a task with a deadline.
+ * It contains a description and a deadline date.
+ */
 public class Deadline extends Task {
     protected LocalDate by;
 
-    // Note that date and time are formatted as "yyyy-MM-dd"
-    // Example: "2021-08-26"
+    /**
+     * Constructs a {@code Deadline} instance with the specified description and deadline date.
+     * Note that the deadline date must be in the format "yyyy-MM-dd".
+     *
+     * @param description The description of the deadline.
+     * @param by          The deadline date of the deadline.
+     * @throws SlipstreamException If the deadline date is not in the correct format.
+     */
     public Deadline(String description, String by) throws SlipstreamException {
         super(description);
         try {
@@ -23,6 +33,15 @@ public class Deadline extends Task {
 
     }
 
+    /**
+     * Constructs a {@code Deadline} instance with the specified description, completion status, and deadline date.
+     * Note that the deadline date must be in the format "yyyy-MM-dd".
+     *
+     * @param description The description of the deadline.
+     * @param isDone      The completion status of the deadline.
+     * @param by          The deadline date of the deadline.
+     * @throws SlipstreamException If the deadline date is not in the correct format.
+     */
     public Deadline(String description, boolean isDone, String by) throws SlipstreamException {
         super(description, isDone);
         try {
@@ -34,12 +53,22 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Returns the string representation of the deadline to be saved in a file.
+     *
+     * @return The string representation of the deadline in a file.
+     */
     @Override
     public String toFileString() {
         return "D | " + (isDone ? 1 : 0) + " | " + description + " | "
             + by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
+    /**
+     * Returns the string representation of the deadline.
+     *
+     * @return The string representation of the deadline.
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: "
