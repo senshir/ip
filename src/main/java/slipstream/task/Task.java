@@ -30,6 +30,15 @@ public abstract class Task {
     }
 
     /**
+     * * Returns the description of the task.
+     *
+     * @return The description of the task.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * Returns the status icon of the task.
      *
      * @return The status icon of the task.
@@ -37,6 +46,7 @@ public abstract class Task {
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
+
 
     /**
      * Marks the task as done.
