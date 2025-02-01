@@ -41,6 +41,7 @@ application {
 shadowJar {
     archiveBaseName = "slipstream"
     archiveClassifier = null
+    archiveFileName = "slipstream.jar"
 }
 
 run{
