@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import slipstream.SlipstreamException;
 import slipstream.storage.Storage;
-import slipstream.ui.Ui;
+import slipstream.ui.UiMessages;
 
 /**
  * The {@code TaskList} class represents a list of tasks.
@@ -34,7 +34,7 @@ public class TaskList {
      *
      * @return The list of tasks.
      */
-    public String listTasks(Ui ui) {
+    public String listTasks(UiMessages ui) {
         return ui.showTaskList(tasks);
     }
 
@@ -49,7 +49,7 @@ public class TaskList {
      * @throws SlipstreamException If the task number is invalid or the input is not a number.
      */
 
-    public void markTask(String indexStr, Storage storage, Ui ui) throws SlipstreamException {
+    public String markTask(String indexStr, Storage storage, UiMessages ui) throws SlipstreamException {
         try {
             int index = Integer.parseInt(indexStr) - 1;
             if (index < 0 || index >= tasks.size()) {
@@ -57,7 +57,7 @@ public class TaskList {
             }
             tasks.get(index).markAsDone();
             storage.saveTasks(tasks);
-            ui.showTaskMarked(tasks.get(index));
+            return ui.showTaskMarked(tasks.get(index));
         } catch (NumberFormatException e) {
             throw new SlipstreamException("Please enter a valid task number!");
         }
@@ -73,7 +73,7 @@ public class TaskList {
      * @param ui       The UI object used to display messages.
      * @throws SlipstreamException If the task number is invalid or the input is not a number.
      */
-    public void unmarkTask(String indexStr, Storage storage, Ui ui) throws SlipstreamException {
+    public String unmarkTask(String indexStr, Storage storage, UiMessages ui) throws SlipstreamException {
         try {
             int index = Integer.parseInt(indexStr) - 1;
             if (index < 0 || index >= tasks.size()) {
@@ -81,7 +81,7 @@ public class TaskList {
             }
             tasks.get(index).markAsNotDone();
             storage.saveTasks(tasks);
-            ui.showTaskUnmarked(tasks.get(index));
+            return ui.showTaskUnmarked(tasks.get(index));
         } catch (NumberFormatException e) {
             throw new SlipstreamException("Please enter a valid task number!");
         }
@@ -97,14 +97,14 @@ public class TaskList {
      * @param ui          The UI object used to display messages.
      * @throws SlipstreamException If the task description is empty.
      */
-    public void addToDo(String description, Storage storage, Ui ui) throws SlipstreamException {
+    public String addToDo(String description, Storage storage, UiMessages ui) throws SlipstreamException {
         if (description.trim().isEmpty()) {
             throw new SlipstreamException("The description of your todo task can't be empty!");
         }
         ToDo newTask = new ToDo(description);
         tasks.add(newTask);
         storage.saveTasks(tasks);
-        ui.showTaskAdded(newTask, tasks.size());
+        return ui.showTaskAdded(newTask, tasks.size());
     }
 
     /**
@@ -117,7 +117,7 @@ public class TaskList {
      * @param ui      The UI object used to display messages.
      * @throws SlipstreamException If the task description or deadline is empty.
      */
-    public void addDeadline(String input, Storage storage, Ui ui) throws SlipstreamException {
+    public String addDeadline(String input, Storage storage, UiMessages ui) throws SlipstreamException {
         if (!input.contains(" /by ")) {
             throw new SlipstreamException("Your deadline task needs a deadline! (use /by)");
         }
@@ -125,7 +125,7 @@ public class TaskList {
         Deadline newTask = new Deadline(parts[0], parts[1]);
         tasks.add(newTask);
         storage.saveTasks(tasks);
-        ui.showTaskAdded(newTask, tasks.size());
+        return ui.showTaskAdded(newTask, tasks.size());
     }
 
     /**
@@ -138,7 +138,7 @@ public class TaskList {
      * @param ui      The UI object used to display messages.
      * @throws SlipstreamException If the task description or time frame is empty.
      */
-    public void addEvent(String input, Storage storage, Ui ui) throws SlipstreamException {
+    public String addEvent(String input, Storage storage, UiMessages ui) throws SlipstreamException {
         if (!input.contains(" /from ") || !input.contains(" /to ")) {
             throw new SlipstreamException(
                 "Your event task needs a time frame! (use /from and /to) after your description");
@@ -147,7 +147,7 @@ public class TaskList {
         Event newTask = new Event(eventDetails[0], eventDetails[1], eventDetails[2]);
         tasks.add(newTask);
         storage.saveTasks(tasks);
-        ui.showTaskAdded(newTask, tasks.size());
+        return ui.showTaskAdded(newTask, tasks.size());
     }
 
     /**
@@ -160,7 +160,7 @@ public class TaskList {
      * @param ui       The UI object used to display messages.
      * @throws SlipstreamException If the task number is invalid or the input is not a number.
      */
-    public void deleteTask(String indexStr, Storage storage, Ui ui) throws SlipstreamException {
+    public String deleteTask(String indexStr, Storage storage, UiMessages ui) throws SlipstreamException {
         try {
             int index = Integer.parseInt(indexStr) - 1;
             if (index < 0) {
@@ -171,7 +171,7 @@ public class TaskList {
             }
             Task removedTask = tasks.remove(index);
             storage.saveTasks(tasks);
-            ui.showTaskDeleted(removedTask, tasks.size());
+            return ui.showTaskDeleted(removedTask, tasks.size());
         } catch (NumberFormatException e) {
             throw new SlipstreamException("Please enter a valid task number!");
         }
@@ -184,10 +184,10 @@ public class TaskList {
      * @param storage The storage object used to save the updated list of tasks.
      * @param ui      The UI object used to display messages.
      */
-    public void clearTasks(Storage storage, Ui ui) {
+    public String clearTasks(Storage storage, UiMessages ui) {
         tasks.clear();
         storage.saveTasks(tasks);
-        ui.showTasksCleared();
+        return ui.showTasksCleared();
     }
 
     /**
