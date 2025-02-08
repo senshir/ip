@@ -1,12 +1,11 @@
 package slipstream;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import slipstream.parser.Parser;
 import slipstream.storage.Storage;
 import slipstream.task.TaskList;
-import slipstream.ui.Ui;
+import slipstream.ui.UiMessages;
 
 /**
  * The {@code Slipstream} class represents a chatbot that helps users manage their tasks.
@@ -15,7 +14,7 @@ import slipstream.ui.Ui;
  */
 public class Slipstream {
 
-    private final Ui ui;
+    private final UiMessages ui;
     private TaskList taskList;
     private final Storage storage;
     private final Parser parser;
@@ -28,7 +27,7 @@ public class Slipstream {
      * @throws SlipstreamException If an error occurs while processing tasks.
      */
     public Slipstream(String filePath) throws IOException, SlipstreamException {
-        ui = new Ui();
+        ui = new UiMessages();
         storage = new Storage(filePath);
         taskList = new TaskList(storage.loadTasks());
         parser = new Parser();
@@ -39,30 +38,15 @@ public class Slipstream {
             taskList = new TaskList();
         }
     }
-    /**
-     * * Runs the chatbot, continuously processing user input until the exit command is given.
-     */
-    public void run() {
-        ui.showWelcomeMessage();
-        Scanner scanner = new Scanner(System.in);
-        boolean isRunning = true;
 
-        while (isRunning) {
-            String userInput = scanner.nextLine();
-            isRunning = parser.processCommand(userInput, taskList, ui, storage);
-        }
-
-        scanner.close();
-    }
     /**
-     * The main entry point of the program. Initialises and starts the Slipstream chatbot.
+     * Processes user input and returns a response.
      *
-     * @param args Command-line arguments (not used in this case).
-     * @throws IOException If there is an issue reading from the storage file.
-     * @throws SlipstreamException If an error occurs during initialization/processing tasks.
+     * @param input User command.
+     * @return Bot response.
      */
-    public static void main(String[] args) throws IOException, SlipstreamException {
-        new Slipstream("./data/slipstream.txt").run();
+    public String getResponse(String input) {
+        return parser.processCommand(input, taskList, ui, storage);
     }
 
 }
