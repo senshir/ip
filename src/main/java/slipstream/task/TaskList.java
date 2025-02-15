@@ -153,6 +153,45 @@ public class TaskList {
     }
 
     /**
+     * Reschedules a deadline task in the list of tasks.
+     * The task is identified by its index in the list.
+     * The updated list of tasks is saved to the storage file.
+     *
+     * @param input   The index of the task to reschedule and the new deadline in yyyy-MM-dd format.
+     * @param storage The storage object used to save the updated list of tasks.
+     * @param ui      The UI object used to display messages.
+     * @throws SlipstreamException If the task number is invalid,
+     *      the input is not a number, the task is not a deadline, or the new deadline format is incorrect.
+     */
+    public String rescheduleTask(String input, Storage storage, UiMessages ui) throws SlipstreamException {
+        String[] parts = input.split(" ", 2);
+        if (parts.length < 2) {
+            throw new SlipstreamException("Please enter a task number and a new deadline in yyyy-MM-dd format! "
+                + "Example: reschedule 5 2024-02-17");
+        }
+
+        int taskIndex;
+        try {
+            taskIndex = Integer.parseInt(parts[0]) - 1;
+        } catch (NumberFormatException e) {
+            throw new SlipstreamException("Invalid task number! Please enter a valid number.");
+        }
+
+        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+            throw new SlipstreamException("Invalid task number! You have only " + tasks.size() + " tasks.");
+        }
+
+        Task task = tasks.get(taskIndex);
+        if (!(task instanceof Deadline deadlineTask)) {
+            throw new SlipstreamException("Only deadline tasks can be rescheduled!");
+        }
+
+        deadlineTask.setDeadline(parts[1]);
+        storage.saveTasks(tasks);
+        return ui.showTaskRescheduled(deadlineTask);
+    }
+
+    /**
      * Deletes a task from the list of tasks.
      * The task is identified by its index in the list.
      * The updated list of tasks is saved to the storage file.
