@@ -54,6 +54,23 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the deadline date of the deadline.
+     *
+     */
+    public void setDeadline(String newDeadline) throws SlipstreamException {
+        if (newDeadline == null || newDeadline.isBlank()) {
+            throw new SlipstreamException("New deadline cannot be empty!");
+        }
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            this.by = LocalDate.parse(newDeadline, formatter);
+        } catch (DateTimeParseException e) {
+            throw new SlipstreamException("Invalid date format! Please use yyyy-MM-dd, e.g., 2024-03-01.");
+        }
+    }
+
+    /**
      * Returns the string representation of the deadline to be saved in a file.
      *
      * @return The string representation of the deadline in a file.

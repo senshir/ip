@@ -69,6 +69,8 @@ public class Parser {
             return handleDeadlineCommand(commandAndTask, tasks, storage, ui);
         case "event":
             return handleEventCommand(commandAndTask, tasks, storage, ui);
+        case "reschedule":
+            return handleRescheduleCommand(commandAndTask, tasks, storage, ui);
         case "delete":
             return handleDeleteCommand(commandAndTask, tasks, storage, ui);
         case "clear":
@@ -118,6 +120,12 @@ public class Parser {
             throw new SlipstreamException("Your event task needs a time frame! (use /from and /to)");
         }
         return tasks.addEvent(commandAndTask[1], storage, ui);
+    }
+
+    private String handleRescheduleCommand(String[] commandAndTask, TaskList tasks, Storage storage, UiMessages ui)
+            throws SlipstreamException {
+        validateCommandInput(commandAndTask, "The reschedule command needs a task number!");
+        return tasks.rescheduleTask(commandAndTask[1], storage, ui);
     }
 
     private String handleDeleteCommand(String[] commandAndTask, TaskList tasks, Storage storage, UiMessages ui)

@@ -71,6 +71,13 @@ public class UiMessages {
     }
 
     /**
+     * Returns a message when a task is rescheduled.
+     */
+    public String showTaskRescheduled(Task task) {
+        return "Got it! I've rescheduled this task:\n" + task.toString();
+    }
+
+    /**
      * Returns the list of tasks.
      */
     public String showTaskList(ArrayList<Task> taskList) {
