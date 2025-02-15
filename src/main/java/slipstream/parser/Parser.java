@@ -84,9 +84,7 @@ public class Parser {
                 response = tasks.clearTasks(storage, ui);
                 break;
             case "find":
-                if (commandAndTask.length < 2) {
-                    throw new SlipstreamException("You need to specify a keyword to search!");
-                }
+                assert commandAndTask.length > 1 : "You need to specify a keyword to search!";
                 ArrayList<Task> matchingTasks = tasks.findTasks(commandAndTask[1]);
                 response = ui.showMatchingTasks(matchingTasks);
                 break;

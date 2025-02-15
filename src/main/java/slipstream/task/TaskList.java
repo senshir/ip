@@ -52,9 +52,10 @@ public class TaskList {
     public String markTask(String indexStr, Storage storage, UiMessages ui) throws SlipstreamException {
         try {
             int index = Integer.parseInt(indexStr) - 1;
-            if (index < 0 || index >= tasks.size()) {
-                throw new SlipstreamException("You need to choose which task to mark! (with a number)");
-            }
+            assert index >= 0 && index < tasks.size() : new SlipstreamException(
+                index < 0 ? "The task number must be positive!" : "The task number is too large! "
+                    + "You only have " + tasks.size() + " tasks in your list."
+            );
             tasks.get(index).markAsDone();
             storage.saveTasks(tasks);
             return ui.showTaskMarked(tasks.get(index));
@@ -76,9 +77,10 @@ public class TaskList {
     public String unmarkTask(String indexStr, Storage storage, UiMessages ui) throws SlipstreamException {
         try {
             int index = Integer.parseInt(indexStr) - 1;
-            if (index < 0 || index >= tasks.size()) {
-                throw new SlipstreamException("You need to choose which task to unmark! (with a number)");
-            }
+            assert index >= 0 && index < tasks.size() : new SlipstreamException(
+                index < 0 ? "The task number must be positive!" : "The task number is too large! "
+                    + "You only have " + tasks.size() + " tasks in your list."
+            );
             tasks.get(index).markAsNotDone();
             storage.saveTasks(tasks);
             return ui.showTaskUnmarked(tasks.get(index));
@@ -163,12 +165,10 @@ public class TaskList {
     public String deleteTask(String indexStr, Storage storage, UiMessages ui) throws SlipstreamException {
         try {
             int index = Integer.parseInt(indexStr) - 1;
-            if (index < 0) {
-                throw new SlipstreamException("The task number must be positive!");
-            } else if (index >= tasks.size()) {
-                throw new SlipstreamException(
-                    "The task number is too large!" + " You only have " + tasks.size() + " tasks in your list.");
-            }
+            assert index >= 0 && index < tasks.size() : new SlipstreamException(
+                index < 0 ? "The task number must be positive!" : "The task number is too large! "
+                    + "You only have " + tasks.size() + " tasks in your list."
+            );
             Task removedTask = tasks.remove(index);
             storage.saveTasks(tasks);
             return ui.showTaskDeleted(removedTask, tasks.size());
