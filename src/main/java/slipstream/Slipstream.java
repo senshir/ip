@@ -21,15 +21,15 @@ public class Slipstream {
 
     /**
      * Constructs a {@code Slipstream} instance, initializing UI, storage, and task management.
+     * Loads tasks from a text file if it exists, otherwise creates a new task list.
+     * If an error occurs while loading tasks, an IOException is caught and an error message is displayed.
      *
      * @param filePath The text file path where tasks are stored.
-     * @throws IOException         If there is an error reading from the storage file.
      * @throws SlipstreamException If an error occurs while processing tasks.
      */
-    public Slipstream(String filePath) throws IOException, SlipstreamException {
+    public Slipstream(String filePath) throws SlipstreamException {
         ui = new UiMessages();
         storage = new Storage(filePath);
-        taskList = new TaskList(storage.loadTasks());
         parser = new Parser();
         try {
             taskList = new TaskList(storage.loadTasks());

@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import slipstream.Slipstream;
+import slipstream.ui.UiMessages;
 
 /**
  * The main controller for the GUI.
@@ -24,6 +25,16 @@ public class MainWindow {
 
     public void setSlipstream(Slipstream slipstream) {
         this.slipstream = slipstream;
+        showWelcomeMessage();
+    }
+
+    /**
+     * Displays the welcome message when Slipstream starts.
+     */
+    private void showWelcomeMessage() {
+        UiMessages ui = new UiMessages();
+        String welcomeMessage = ui.showWelcomeMessage();
+        dialogContainer.getChildren().add(DialogBox.getSlipstreamDialog(welcomeMessage, botImage));
     }
 
     @FXML
