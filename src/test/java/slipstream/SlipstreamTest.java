@@ -1,13 +1,8 @@
-/*
 package slipstream;
-
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -17,83 +12,71 @@ import org.junit.jupiter.api.Test;
 
 public class SlipstreamTest {
 
-    // outContent is used to test the output of the program
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    // originalOut is used to revert the output of the program to the original output stream
-    private final PrintStream originalOut = System.out;
+    private static final String TEST_FILE_PATH = "./data/slipstream_test.txt";
+    private Slipstream slipstream;
 
-    // Needed AI's help to understand how to capture output from System.out.println() and inputs
-    // Before each test, set System.out to outContent
     @BeforeEach
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
+    public void createFile() throws SlipstreamException {
+        // Create a new test file before the tests
+        slipstream = new Slipstream(TEST_FILE_PATH);
     }
 
-    // Reset System.out to the original output stream
     @AfterEach
-    public void restoreStreams() throws IOException {
-        System.setOut(originalOut);
-        // IMPORTANT: Delete the file after each test to reset task list
-        String filePath = "./data/slipstream_test.txt";
-        Files.deleteIfExists(Paths.get(filePath));
+    public void deleteFile() throws IOException {
+        // Delete test file after every test
+        Files.deleteIfExists(Paths.get(TEST_FILE_PATH));
     }
 
     @Test
-    public void testValidCommand() throws IOException, SlipstreamException {
-        // User inputs "list", then "todo read book", then "bye"
-        String input = """
-            list
-            todo read book
-            bye
-            """;
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
+    public void testValidCommands() {
+        // Test list command on empty task list
+        String response = slipstream.getResponse("list");
+        System.out.println(response);
+        assertTrue(response.contains("You have no tasks in your list!"), "'list' command failed!");
 
-        // Run Slipstream to get greeting
-        new Slipstream("./data/slipstream_test.txt").run();
+        // Test adding a todo
+        response = slipstream.getResponse("todo read book");
+        assertTrue(response.contains("Got it. I've added this task:"), "'todo' command failed!");
+        assertTrue(response.contains("[T][ ] read book"), "Task formatting is incorrect!");
 
-        // Write in inputs and capture the outputs
-        String output = outContent.toString();
-        System.out.println(output);
+        // Test adding a deadline
+        response = slipstream.getResponse("deadline homework /by 2024-03-01");
+        assertTrue(response.contains("[D][ ] homework (by: Mar 01 2024)"), "'deadline' command failed!");
 
-        // Verify expected outputs appear
-        assertTrue(output.contains("Hello! I'm Slipstream"), "Welcome message is missing!");
-        assertTrue(output.contains("You have no tasks in your list!"), "'list' command did not work");
-        assertTrue(output.contains("Got it. I've added this task:"), "'todo' command did not work");
-        assertTrue(output.contains("[T][ ] read book"), "Task is not formatted right/did not work");
-        assertTrue(output.contains("Bye. Hope to see you again soon!"), "'bye' command did not work");
+        // Test adding an event
+        response = slipstream.getResponse("event meeting /from Monday /to Wednesday");
+        assertTrue(response.contains("[E][ ] meeting (from: Monday to: Wednesday)"), "'event' command failed!");
     }
 
     @Test
-    public void testInvalidCommands() throws IOException, SlipstreamException {
-        // User enters various invalid commands
-        String input = "randomCommand\n"
-            + "todo\n" // Empty todo description
-            + "deadline homework\n" // Missing /by
-            + "event meeting /from Monday\n" // Missing /to
-            + "delete\n" // No task number given to delete
-            + "mark\n" // No task number to mark
-            + "bye\n";
+    public void testInvalidCommands() {
+        // Test an invalid command
+        String response = slipstream.getResponse("lol");
+        assertTrue(response.contains("Sorry, but I don't know what that means :/"), "Unknown command handling failed!");
 
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        // Test empty todo description
+        response = slipstream.getResponse("todo");
+        assertTrue(response.contains("The description of your todo task can't be empty!"),
+            "'todo' error handling failed!");
 
-        // Run Slipstream with test file
-        new Slipstream("./data/slipstream_test.txt").run();
+        // Test missing deadline date
+        response = slipstream.getResponse("deadline homework");
+        assertTrue(response.contains("Your deadline task needs a deadline! (use /by)"),
+            "'deadline' error handling failed!");
 
-        // Get captured output
-        String output = outContent.toString();
-        System.out.println(output); // Debugging: See what is printed
-
-        // Verify that expected error messages appear
-        assertTrue(output.contains("Sorry but I don't know what that means :/"), "Unknown command error is missing!");
-        assertTrue(output.contains("The description of your todo task can't be empty!"),
-            "Empty todo error unsuccessful!");
-        assertTrue(output.contains("Your deadline task needs a deadline! (use /by)"), "Deadline error is missing!");
-        assertTrue(output.contains("Your event task needs a time frame! (use /from and /to)"),
-            "Event error is missing!");
-        assertTrue(output.contains("The delete command needs a task number!"), "Delete command error is missing!");
-        assertTrue(output.contains("You must specify a task number to mark!"), "Mark command error is missing!");
+        // Test missing event timeframe
+        response = slipstream.getResponse("event meeting /from Monday");
+        assertTrue(response.contains("Your event task needs a time frame! (use /from and /to)"),
+            "'event' error handling failed!");
     }
 
+    @Test
+    public void testRescheduleCommand() {
+        // Add a deadline task first
+        slipstream.getResponse("deadline project /by 2024-02-20");
+
+        // Reschedule the task
+        String response = slipstream.getResponse("reschedule 1 2024-03-01");
+        assertTrue(response.contains("Got it! I've rescheduled this task:"), "'reschedule' command failed!");
+    }
 }
-
- */

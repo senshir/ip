@@ -17,7 +17,7 @@ public class Main extends Application {
 
     private final Slipstream slipstream = new Slipstream("./data/slipstream.txt");
 
-    public Main() throws IOException, SlipstreamException {
+    public Main() throws SlipstreamException {
     }
 
     @Override
