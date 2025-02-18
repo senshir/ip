@@ -7,7 +7,10 @@ Slipstream is a simple yet powerful task management chatbot designed to help use
 1. Ensure you have Java 17 installed (for MacOS users, you need Azul JDK 17).
 2. Download the latest `slipstream.jar` from the repository's releases [here](https://github.com/senshir/ip)
 3. Copy the file to the folder you want to use as the home folder for Slipstream.
-4. Open a command terminal, cd into the folder you put the jar file in, and use the java -jar slipstream.jar command to run the application.
+4. Open a command terminal, cd into the folder you put the jar file in, and use the following command to run the application.
+
+   `java -jar slipstream.jar`
+
    A GUI similar to the below should appear in a few seconds. Note that the app may not have any tasks stored.
 
 ![Product Screenshot](Ui.png)
@@ -130,6 +133,7 @@ you can specify the file path in the Storage.java file by modifying it.
 
 ## Conclusion
 
-Slipstream is designed to make task management simple and efficient. Use the commands above to manage your tasks effectively. If you encounter any issues, please refer to the error messages for guidance.
+Slipstream is designed to make task management simple and efficient. Use the commands above to manage your tasks effectively. 
+If you encounter any issues, please refer to the error messages for guidance, or report issues to the Issues tab in the repository!
 
 Thank you for using Slipstream! 🚀
